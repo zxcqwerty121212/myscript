@@ -132,7 +132,14 @@ MexicoBtn.MouseButton1Click:Connect(function()
         char.HumanoidRootPart.CFrame = CFrame.new(9999, 100, 9999) -- координаты "Мексики"
     end
 end)
+-- Кнопка для сворачивания/открытия
+IconBtn.MouseButton1Click:Connect(function()
+    Frame.Visible = not Frame.Visible
+end)
+
+-- Открываем GUI сразу при запуске
 wait(0.1)
 Frame.Visible = true
+
 
 
