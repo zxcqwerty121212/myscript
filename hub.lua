@@ -22,10 +22,10 @@ Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 Frame.Parent = ScreenGui
 Frame.Visible = false  -- По умолчанию скрыт
 
--- Иконка для сворачивания/открытия интерфейса
+-- Иконка для сворачивания/открытия интерфейса, расположена в левом нижнем углу
 local IconBtn = Instance.new("ImageButton")
 IconBtn.Size = UDim2.new(0, 50, 0, 50)
-IconBtn.Position = UDim2.new(0, 5, 0.5, -25) -- В левом верхнем углу
+IconBtn.Position = UDim2.new(0, 5, 1, -55)  -- Левый нижний угол
 IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка
 IconBtn.BackgroundTransparency = 1
 IconBtn.Parent = ScreenGui
@@ -113,4 +113,5 @@ IconBtn.MouseButton1Click:Connect(function()
         Frame.Visible = true
     end
 end)
+
 
