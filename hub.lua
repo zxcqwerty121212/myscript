@@ -20,7 +20,7 @@ Frame.Size = UDim2.new(0, 300, 0, 450)
 Frame.Position = UDim2.new(0, 0, 0.5, -225)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.Parent = ScreenGui
-Frame.Visible = false  -- По умолчанию скрыт
+Frame.Visible = true  -- Сделано видимым
 
 -- Иконка для сворачивания/открытия
 local IconBtn = Instance.new("ImageButton")
@@ -55,7 +55,7 @@ end)
 
 -- Создание вкладок с расположением сверху вниз
 local tabFrame = Instance.new("Frame")
-tabFrame.Size = UDim2.new(0, 300, 0, 40)
+tabFrame.Size = UDim2.new(0, 300, 0, 160)
 tabFrame.Position = UDim2.new(0, 0, 0, 0)
 tabFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 tabFrame.Parent = Frame
