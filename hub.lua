@@ -155,6 +155,47 @@ end)
 
 -- Мышь не привязана к экрану
 uis.MouseBehavior = Enum.MouseBehavior.Default
+-- Твой основной GUI код идет здесь
+
+-- Пример добавления нового функционала внизу твоего GUI скрипта
+
+-- Скрипт для выполнения нужных действий (например, от 3-го лица, изменение курсора)
+
+local Player = game.Players.LocalPlayer
+local PlayerCharacter = Player.Character or Player.CharacterAdded:Wait()
+local PlayerHumanoid = PlayerCharacter:WaitForChild("Humanoid")
+
+-- Функция для активации 3-го лица
+local function enableThirdPerson()
+    -- Если игрок находится в первом лице, переключаем в третье
+    if Player.CameraMode == Enum.CameraMode.LockFirstPerson then
+        Player.CameraMode = Enum.CameraMode.Classic
+    end
+end
+
+-- Функция для изменения курсора на обычный
+local function changeCursorToNormal()
+    -- Устанавливаем стандартный курсор
+    game:GetService("UserInputService").MouseIconEnabled = true
+end
+
+-- Функция для изменения курсора на точку (как в игре по умолчанию)
+local function changeCursorToDot()
+    -- Устанавливаем курсор на точку
+    game:GetService("UserInputService").MouseIconEnabled = false
+end
+
+-- Инициализация: активируем 3-е лицо и меняем курсор
+enableThirdPerson()
+changeCursorToNormal()
+
+-- Дополнительный функционал: при изменении ситуации меняем курсор на точку, если необходимо
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        changeCursorToDot() -- Пример: меняем курсор на точку при клике
+    end
+end)
+
 
 
 
