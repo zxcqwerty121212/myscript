@@ -140,6 +140,21 @@ end)
 -- Открываем GUI сразу при запуске
 wait(0.1)
 Frame.Visible = true
+-- Разблокировка камеры и курсора при запуске
+local player = game.Players.LocalPlayer
+local uis = game:GetService("UserInputService")
+
+-- Делаем курсор обычным
+uis.MouseIconEnabled = true
+
+-- Включаем свободную камеру (третье лицо)
+pcall(function()
+    player.CameraMode = Enum.CameraMode.Classic
+    workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+end)
+
+-- Мышь не привязана к экрану
+uis.MouseBehavior = Enum.MouseBehavior.Default
 
 
 
