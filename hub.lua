@@ -1,52 +1,88 @@
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import PhotoImage
+local Player = game.Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
 
-# Функция, которая будет вызываться при нажатии на кнопки
-def on_button_click(action):
-    if action == "load_delta":
-        messagebox.showinfo("Action", "Загрузка дельта-чита...")
-        # Здесь будет логика для загрузки дельта-чита
-    elif action == "apply_delta":
-        messagebox.showinfo("Action", "Применение дельта-чита...")
-        # Здесь будет логика для применения дельта-чита
+-- ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CustomHub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
 
-# Функция для сворачивания и разворачивания окна
-def toggle_window():
-    if root.state() == "normal":
-        root.iconify()  # Свернуть окно
-    else:
-        root.deiconify()  # Развернуть окно
+-- Основной фрейм с новым стилем
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 450)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -225)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Parent = ScreenGui
+Frame.Visible = true  -- По умолчанию видим
 
-# Основное окно приложения
-root = tk.Tk()
-root.title("Delta Cheat GUI")
-root.geometry("400x300")
+-- Градиент для фона (темный с плавным переходом)
+local Gradient = Instance.new("UIGradient")
+Gradient.Color = ColorSequence.new(
+    Color3.fromRGB(40, 40, 40),
+    Color3.fromRGB(100, 100, 100)
+)
+Gradient.Parent = Frame
 
-# Устанавливаем иконку с котиком
-try:
-    cat_icon = PhotoImage(file="cat_icon.png")  # Путь к изображению котика
-    root.iconphoto(True, cat_icon)
-except Exception as e:
-    print("Ошибка загрузки иконки:", e)
+-- Кнопка-иконка для сворачивания/открытия
+local IconBtn = Instance.new("ImageButton")
+IconBtn.Size = UDim2.new(0, 50, 0, 50)
+IconBtn.Position = UDim2.new(0.5, -25, 0.5, -200)
+IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка (можешь заменить на другую)
+IconBtn.BackgroundTransparency = 1
+IconBtn.Parent = ScreenGui
+IconBtn.MouseButton1Click:Connect(function()
+    if Frame.Visible then
+        Frame.Visible = false
+    else
+        Frame.Visible = true
+    end
+end)
 
-# Кнопка для загрузки дельта-чита
-load_button = tk.Button(root, text="Загрузить дельта-чит", command=lambda: on_button_click("load_delta"))
-load_button.pack(pady=20)
+-- Кнопка для спидхака
+local SpeedBtn = Instance.new("TextButton")
+SpeedBtn.Size = UDim2.new(0, 250, 0, 40)
+SpeedBtn.Position = UDim2.new(0, 25, 0, 70)
+SpeedBtn.Text = "Увеличить скорость"
+SpeedBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+SpeedBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedBtn.Parent = Frame
+SpeedBtn.MouseButton1Click:Connect(function()
+    Player.Character.Humanoid.WalkSpeed = 100
+end)
 
-# Кнопка для применения дельта-чита
-apply_button = tk.Button(root, text="Применить дельта-чит", command=lambda: on_button_click("apply_delta"))
-apply_button.pack(pady=20)
+-- Кнопка для прыжка
+local JumpBtn = Instance.new("TextButton")
+JumpBtn.Size = UDim2.new(0, 250, 0, 40)
+JumpBtn.Position = UDim2.new(0, 25, 0, 120)
+JumpBtn.Text = "Увеличить прыжок"
+JumpBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+JumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+JumpBtn.Parent = Frame
+JumpBtn.MouseButton1Click:Connect(function()
+    Player.Character.Humanoid.JumpPower = 200
+end)
 
-# Кнопка для сворачивания/разворачивания
-toggle_button = tk.Button(root, text="🦑 Кликни на котика!", command=toggle_window)
-toggle_button.pack(pady=20)
+-- Кнопка для полета
+local FlyBtn = Instance.new("TextButton")
+FlyBtn.Size = UDim2.new(0, 250, 0, 40)
+FlyBtn.Position = UDim2.new(0, 25, 0, 170)
+FlyBtn.Text = "Полёт"
+FlyBtn.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+FlyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlyBtn.Parent = Frame
+FlyBtn.MouseButton1Click:Connect(function()
+    -- Код для полёта
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ТВОЙ_НИК/репозиторий/raw/полёт-скрипт.lua"))()
+end)
 
-# Сделаем окно более стильным
-root.configure(bg="#2a2a2a")  # Темный фон
-load_button.config(bg="#ff6347", fg="white", font=("Arial", 12))  # Красная кнопка
-apply_button.config(bg="#32cd32", fg="white", font=("Arial", 12))  # Зеленая кнопка
-toggle_button.config(bg="#ffdd00", fg="black", font=("Arial", 12, "bold"))  # Желтая кнопка
-
-# Запуск основного цикла приложения
-root.mainloop()
+-- Кнопка для закрытия
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 60, 0, 30)
+CloseBtn.Position = UDim2.new(1, -65, 0, 5)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+CloseBtn.Parent = Frame
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
