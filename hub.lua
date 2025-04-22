@@ -17,15 +17,15 @@ ScreenGui.Parent = PlayerGui
 -- Основной фрейм с новым стилем
 local Frame = Instance.new("Frame")
 Frame.Size = UDim2.new(0, 300, 0, 450)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -225)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Position = UDim2.new(0, 10, 0.5, -200)
+Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Frame.Parent = ScreenGui
 Frame.Visible = false  -- По умолчанию скрыт
 
 -- Градиент для фона (темный с плавным переходом)
 local Gradient = Instance.new("UIGradient")
 Gradient.Color = ColorSequence.new(
-    Color3.fromRGB(40, 40, 40),
+    Color3.fromRGB(50, 50, 50),
     Color3.fromRGB(100, 100, 100)
 )
 Gradient.Parent = Frame
@@ -33,7 +33,7 @@ Gradient.Parent = Frame
 -- Иконка для сворачивания/открытия
 local IconBtn = Instance.new("ImageButton")
 IconBtn.Size = UDim2.new(0, 50, 0, 50)
-IconBtn.Position = UDim2.new(0.5, -25, 0.5, -200)
+IconBtn.Position = UDim2.new(0, 125, 0, -50)
 IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка
 IconBtn.BackgroundTransparency = 1
 IconBtn.Parent = ScreenGui
@@ -61,55 +61,6 @@ game:GetService("UserInputService").InputChanged:Connect(function(input)
     end
 end)
 
--- Кнопка для спидхака
-local SpeedBtn = Instance.new("TextButton")
-SpeedBtn.Size = UDim2.new(0, 250, 0, 40)
-SpeedBtn.Position = UDim2.new(0, 25, 0, 70)
-SpeedBtn.Text = "Увеличить скорость"
-SpeedBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-SpeedBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-SpeedBtn.Parent = Frame
-SpeedBtn.MouseButton1Click:Connect(function()
-    Player.Character.Humanoid.WalkSpeed = 100
-end)
-
--- Кнопка для прыжка
-local JumpBtn = Instance.new("TextButton")
-JumpBtn.Size = UDim2.new(0, 250, 0, 40)
-JumpBtn.Position = UDim2.new(0, 25, 0, 120)
-JumpBtn.Text = "Увеличить прыжок"
-JumpBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-JumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-JumpBtn.Parent = Frame
-JumpBtn.MouseButton1Click:Connect(function()
-    Player.Character.Humanoid.JumpPower = 200
-end)
-
--- Кнопка для полета
-local FlyBtn = Instance.new("TextButton")
-FlyBtn.Size = UDim2.new(0, 250, 0, 40)
-FlyBtn.Position = UDim2.new(0, 25, 0, 170)
-FlyBtn.Text = "Полёт"
-FlyBtn.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-FlyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-FlyBtn.Parent = Frame
-FlyBtn.MouseButton1Click:Connect(function()
-    -- Код для полёта
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/ТВОЙ_НИК/репозиторий/raw/полёт-скрипт.lua"))()
-end)
-
--- Кнопка для закрытия
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 60, 0, 30)
-CloseBtn.Position = UDim2.new(1, -65, 0, 5)
-CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-CloseBtn.Parent = Frame
-CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
 -- Кнопка для сворачивания/открытия
 IconBtn.MouseButton1Click:Connect(function()
     if Frame.Visible then
@@ -118,84 +69,68 @@ IconBtn.MouseButton1Click:Connect(function()
         Frame.Visible = true
     end
 end)
--- Кнопка для телепорта в Мексику (или конец карты)
+
+-- Вкладки (меню)
+local TabFrame = Instance.new("Frame")
+TabFrame.Size = UDim2.new(0, 300, 0, 50)
+TabFrame.Position = UDim2.new(0, 0, 0, 0)
+TabFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TabFrame.Parent = Frame
+
+local Tabs = {"Start", "Chat", "Teleport"}
+local Buttons = {}
+
+for i, tabName in ipairs(Tabs) do
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(0, 100, 0, 50)
+    Button.Position = UDim2.new(0, (i - 1) * 100, 0, 0)
+    Button.Text = tabName
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Button.Parent = TabFrame
+    Buttons[tabName] = Button
+end
+
+-- Кнопка для телепорта в Мексику
 local MexicoBtn = Instance.new("TextButton")
 MexicoBtn.Size = UDim2.new(0, 250, 0, 40)
-MexicoBtn.Position = UDim2.new(0, 25, 0, 220)
+MexicoBtn.Position = UDim2.new(0, 25, 0, 70)
 MexicoBtn.Text = "Телепорт в Мексику"
-MexicoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-MexicoBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+MexicoBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+MexicoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 MexicoBtn.Parent = Frame
+MexicoBtn.Visible = false
 MexicoBtn.MouseButton1Click:Connect(function()
-    local char = Player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = CFrame.new(9999, 100, 9999) -- координаты "Мексики"
-    end
-end)
--- Кнопка для сворачивания/открытия
-IconBtn.MouseButton1Click:Connect(function()
-    Frame.Visible = not Frame.Visible
+    -- Здесь код для телепорта в Мексику (просто пример)
+    print("Телепортируем в Мексику!")
 end)
 
--- Открываем GUI сразу при запуске
-wait(0.1)
-Frame.Visible = true
--- Разблокировка камеры и курсора при запуске
-local player = game.Players.LocalPlayer
-local uis = game:GetService("UserInputService")
-
--- Делаем курсор обычным
-uis.MouseIconEnabled = true
-
--- Включаем свободную камеру (третье лицо)
-pcall(function()
-    player.CameraMode = Enum.CameraMode.Classic
-    workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+-- Кнопка для телепорта в начало
+local StartBtn = Instance.new("TextButton")
+StartBtn.Size = UDim2.new(0, 250, 0, 40)
+StartBtn.Position = UDim2.new(0, 25, 0, 120)
+StartBtn.Text = "Телепорт в Начало"
+StartBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+StartBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+StartBtn.Parent = Frame
+StartBtn.Visible = false
+StartBtn.MouseButton1Click:Connect(function()
+    -- Здесь код для телепорта в начало
+    print("Телепортируем в начало!")
 end)
 
--- Мышь не привязана к экрану
-uis.MouseBehavior = Enum.MouseBehavior.Default
--- Твой основной GUI код идет здесь
-
--- Пример добавления нового функционала внизу твоего GUI скрипта
-
--- Скрипт для выполнения нужных действий (например, от 3-го лица, изменение курсора)
-
-local Player = game.Players.LocalPlayer
-local PlayerCharacter = Player.Character or Player.CharacterAdded:Wait()
-local PlayerHumanoid = PlayerCharacter:WaitForChild("Humanoid")
-
--- Функция для активации 3-го лица
-local function enableThirdPerson()
-    -- Если игрок находится в первом лице, переключаем в третье
-    if Player.CameraMode == Enum.CameraMode.LockFirstPerson then
-        Player.CameraMode = Enum.CameraMode.Classic
-    end
-end
-
--- Функция для изменения курсора на обычный
-local function changeCursorToNormal()
-    -- Устанавливаем стандартный курсор
-    game:GetService("UserInputService").MouseIconEnabled = true
-end
-
--- Функция для изменения курсора на точку (как в игре по умолчанию)
-local function changeCursorToDot()
-    -- Устанавливаем курсор на точку
-    game:GetService("UserInputService").MouseIconEnabled = false
-end
-
--- Инициализация: активируем 3-е лицо и меняем курсор
-enableThirdPerson()
-changeCursorToNormal()
-
--- Дополнительный функционал: при изменении ситуации меняем курсор на точку, если необходимо
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        changeCursorToDot() -- Пример: меняем курсор на точку при клике
-    end
+-- Переключение вкладок
+Buttons["Start"].MouseButton1Click:Connect(function()
+    MexicoBtn.Visible = false
+    StartBtn.Visible = false
 end)
 
+Buttons["Chat"].MouseButton1Click:Connect(function()
+    MexicoBtn.Visible = false
+    StartBtn.Visible = false
+end)
 
-
-
+Buttons["Teleport"].MouseButton1Click:Connect(function()
+    MexicoBtn.Visible = true
+    StartBtn.Visible = true
+end)
