@@ -132,4 +132,7 @@ MexicoBtn.MouseButton1Click:Connect(function()
         char.HumanoidRootPart.CFrame = CFrame.new(9999, 100, 9999) -- координаты "Мексики"
     end
 end)
+wait(0.1)
+Frame.Visible = true
+
 
