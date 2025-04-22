@@ -1,7 +1,14 @@
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
--- ScreenGui
+-- Удаляем старый GUI (если он существует)
+for _, obj in pairs(PlayerGui:GetChildren()) do
+    if obj.Name == "CustomHub" then
+        obj:Destroy()
+    end
+end
+
+-- ScreenGui для нового интерфейса
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "CustomHub"
 ScreenGui.ResetOnSpawn = false
@@ -13,7 +20,7 @@ Frame.Size = UDim2.new(0, 300, 0, 450)
 Frame.Position = UDim2.new(0.5, -150, 0.5, -225)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.Parent = ScreenGui
-Frame.Visible = true  -- По умолчанию видим
+Frame.Visible = false  -- По умолчанию скрыт
 
 -- Градиент для фона (темный с плавным переходом)
 local Gradient = Instance.new("UIGradient")
@@ -23,18 +30,34 @@ Gradient.Color = ColorSequence.new(
 )
 Gradient.Parent = Frame
 
--- Кнопка-иконка для сворачивания/открытия
+-- Иконка для сворачивания/открытия
 local IconBtn = Instance.new("ImageButton")
 IconBtn.Size = UDim2.new(0, 50, 0, 50)
 IconBtn.Position = UDim2.new(0.5, -25, 0.5, -200)
-IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка (можешь заменить на другую)
+IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка
 IconBtn.BackgroundTransparency = 1
 IconBtn.Parent = ScreenGui
-IconBtn.MouseButton1Click:Connect(function()
-    if Frame.Visible then
-        Frame.Visible = false
-    else
-        Frame.Visible = true
+
+-- Логика для перетаскивания иконки
+local dragging = false
+local dragInput, dragStart, startPos
+
+IconBtn.MouseButton1Down:Connect(function(input)
+    dragging = true
+    dragStart = input.Position
+    startPos = IconBtn.Position
+
+    input.Changed:Connect(function()
+        if input.UserInputState == Enum.UserInputState.End then
+            dragging = false
+        end
+    end)
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging then
+        local delta = input.Position - dragStart
+        IconBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
 
@@ -85,4 +108,13 @@ CloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 CloseBtn.Parent = Frame
 CloseBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
+end)
+
+-- Кнопка для сворачивания/открытия
+IconBtn.MouseButton1Click:Connect(function()
+    if Frame.Visible then
+        Frame.Visible = false
+    else
+        Frame.Visible = true
+    end
 end)
