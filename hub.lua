@@ -1,68 +1,52 @@
-local Player = game.Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import PhotoImage
 
--- ScreenGui
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "CustomGUI"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = PlayerGui
+# Функция, которая будет вызываться при нажатии на кнопки
+def on_button_click(action):
+    if action == "load_delta":
+        messagebox.showinfo("Action", "Загрузка дельта-чита...")
+        # Здесь будет логика для загрузки дельта-чита
+    elif action == "apply_delta":
+        messagebox.showinfo("Action", "Применение дельта-чита...")
+        # Здесь будет логика для применения дельта-чита
 
--- Основной фрейм
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 400, 0, 500)
-Frame.Position = UDim2.new(0.5, -200, 0.5, -250)
-Frame.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
-Frame.BackgroundTransparency = 0.2
-Frame.Parent = ScreenGui
-Frame.Visible = true  -- Сделаем его видимым сразу
+# Функция для сворачивания и разворачивания окна
+def toggle_window():
+    if root.state() == "normal":
+        root.iconify()  # Свернуть окно
+    else:
+        root.deiconify()  # Развернуть окно
 
--- Градиент для фона (плавный переход)
-local Gradient = Instance.new("UIGradient")
-Gradient.Color = ColorSequence.new(
-    Color3.fromRGB(35, 35, 35),  -- Тёмно-серый
-    Color3.fromRGB(85, 0, 255)   -- Фиолетовый
-)
-Gradient.Parent = Frame
+# Основное окно приложения
+root = tk.Tk()
+root.title("Delta Cheat GUI")
+root.geometry("400x300")
 
--- Рамка (по аналогии с тем, что встречается в интерфейсах похожих на Sander)
-local Border = Instance.new("UICorner")
-Border.CornerRadius = UDim.new(0, 10)  -- Закругленные углы
-Border.Parent = Frame
+# Устанавливаем иконку с котиком
+try:
+    cat_icon = PhotoImage(file="cat_icon.png")  # Путь к изображению котика
+    root.iconphoto(True, cat_icon)
+except Exception as e:
+    print("Ошибка загрузки иконки:", e)
 
--- Тень для фрейма
-local Shadow = Instance.new("ImageLabel")
-Shadow.Size = UDim2.new(1, 0, 1, 0)
-Shadow.Position = UDim2.new(0, 0, 0, 0)
-Shadow.BackgroundTransparency = 1
-Shadow.Image = "rbxassetid://4842515974"  -- Это изображение тени, которое подходит для стиля
-Shadow.ImageTransparency = 0.8
-Shadow.Parent = Frame
+# Кнопка для загрузки дельта-чита
+load_button = tk.Button(root, text="Загрузить дельта-чит", command=lambda: on_button_click("load_delta"))
+load_button.pack(pady=20)
 
--- Кнопка для открытия
-local ToggleBtn = Instance.new("TextButton")
-ToggleBtn.Size = UDim2.new(0, 80, 0, 30)
-ToggleBtn.Position = UDim2.new(0.5, -40, 0, 10)
-ToggleBtn.Text = "Открыть"
-ToggleBtn.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
-ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleBtn.TextSize = 18
-ToggleBtn.Font = Enum.Font.Gotham
-ToggleBtn.Parent = Frame
-ToggleBtn.MouseButton1Click:Connect(function()
-    -- Можно добавить функциональность для кнопки, например, скрывать или показывать что-то.
-    print("Кнопка нажата!")
-end)
+# Кнопка для применения дельта-чита
+apply_button = tk.Button(root, text="Применить дельта-чит", command=lambda: on_button_click("apply_delta"))
+apply_button.pack(pady=20)
 
--- Кнопка закрытия
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 40, 0, 40)
-CloseBtn.Position = UDim2.new(1, -45, 0, -45)
-CloseBtn.Text = "X"
-CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.TextSize = 20
-CloseBtn.Font = Enum.Font.Gotham
-CloseBtn.Parent = Frame
-CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()  -- Закрыть GUI
-end)
+# Кнопка для сворачивания/разворачивания
+toggle_button = tk.Button(root, text="🦑 Кликни на котика!", command=toggle_window)
+toggle_button.pack(pady=20)
+
+# Сделаем окно более стильным
+root.configure(bg="#2a2a2a")  # Темный фон
+load_button.config(bg="#ff6347", fg="white", font=("Arial", 12))  # Красная кнопка
+apply_button.config(bg="#32cd32", fg="white", font=("Arial", 12))  # Зеленая кнопка
+toggle_button.config(bg="#ffdd00", fg="black", font=("Arial", 12, "bold"))  # Желтая кнопка
+
+# Запуск основного цикла приложения
+root.mainloop()
