@@ -53,15 +53,16 @@ game:GetService("UserInputService").InputChanged:Connect(function(input)
     end
 end)
 
--- Создание вкладок
+-- Создание вкладок с расположением сверху вниз
 local tabFrame = Instance.new("Frame")
 tabFrame.Size = UDim2.new(0, 300, 0, 40)
 tabFrame.Position = UDim2.new(0, 0, 0, 0)
 tabFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 tabFrame.Parent = Frame
 
+-- Кнопки вкладок
 local teleportTabButton = Instance.new("TextButton")
-teleportTabButton.Size = UDim2.new(0, 100, 0, 40)
+teleportTabButton.Size = UDim2.new(0, 300, 0, 40)
 teleportTabButton.Position = UDim2.new(0, 0, 0, 0)
 teleportTabButton.Text = "Teleport"
 teleportTabButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -69,20 +70,28 @@ teleportTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 teleportTabButton.Parent = tabFrame
 
 local mainTabButton = Instance.new("TextButton")
-mainTabButton.Size = UDim2.new(0, 100, 0, 40)
-mainTabButton.Position = UDim2.new(0, 100, 0, 0)
+mainTabButton.Size = UDim2.new(0, 300, 0, 40)
+mainTabButton.Position = UDim2.new(0, 0, 0, 40)
 mainTabButton.Text = "Main"
 mainTabButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 mainTabButton.Parent = tabFrame
 
 local aimBotTabButton = Instance.new("TextButton")
-aimBotTabButton.Size = UDim2.new(0, 100, 0, 40)
-aimBotTabButton.Position = UDim2.new(0, 200, 0, 0)
+aimBotTabButton.Size = UDim2.new(0, 300, 0, 40)
+aimBotTabButton.Position = UDim2.new(0, 0, 0, 80)
 aimBotTabButton.Text = "AimBot"
 aimBotTabButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 aimBotTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 aimBotTabButton.Parent = tabFrame
+
+local menuTabButton = Instance.new("TextButton")
+menuTabButton.Size = UDim2.new(0, 300, 0, 40)
+menuTabButton.Position = UDim2.new(0, 0, 0, 120)
+menuTabButton.Text = "Menu"
+menuTabButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+menuTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+menuTabButton.Parent = tabFrame
 
 -- Вкладка для телепортации
 local teleportFrame = Instance.new("Frame")
@@ -124,16 +133,17 @@ mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 mainFrame.Parent = Frame
 mainFrame.Visible = false
 
--- Кнопка для авто фарма
-local autoFarmButton = Instance.new("TextButton")
-autoFarmButton.Size = UDim2.new(0, 250, 0, 40)
-autoFarmButton.Position = UDim2.new(0, 25, 0, 50)
-autoFarmButton.Text = "Auto Farm"
-autoFarmButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-autoFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-autoFarmButton.Parent = mainFrame
-autoFarmButton.MouseButton1Click:Connect(function()
-    -- Добавьте код для авто фарма
+-- Кнопка для авто фарма облигаций
+local autoFarmBondButton = Instance.new("TextButton")
+autoFarmBondButton.Size = UDim2.new(0, 250, 0, 40)
+autoFarmBondButton.Position = UDim2.new(0, 25, 0, 50)
+autoFarmBondButton.Text = "Auto Farm Bonds"
+autoFarmBondButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+autoFarmBondButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoFarmBondButton.Parent = mainFrame
+autoFarmBondButton.MouseButton1Click:Connect(function()
+    -- Функция для авто фарма облигаций
+    autoFarmBonds()
 end)
 
 -- Вкладка для AimBot
@@ -149,26 +159,15 @@ local aimBotButton = Instance.new("TextButton")
 aimBotButton.Size = UDim2.new(0, 250, 0, 40)
 aimBotButton.Position = UDim2.new(0, 25, 0, 50)
 aimBotButton.Text = "Enable AimBot"
-aimBotButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-aimBotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+aimBotButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+aimBotButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 aimBotButton.Parent = aimBotFrame
 aimBotButton.MouseButton1Click:Connect(function()
-    -- Добавьте код для AimBot
+    -- Включение AimBot
+    enableAimBot()
 end)
 
--- Кнопка для настройки FOV
-local fovButton = Instance.new("TextButton")
-fovButton.Size = UDim2.new(0, 250, 0, 40)
-fovButton.Position = UDim2.new(0, 25, 0, 100)
-fovButton.Text = "Set FOV"
-fovButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-fovButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-fovButton.Parent = aimBotFrame
-fovButton.MouseButton1Click:Connect(function()
-    -- Добавьте код для изменения FOV
-end)
-
--- Логика для переключения между вкладками
+-- Функция для переключения видимости вкладок
 teleportTabButton.MouseButton1Click:Connect(function()
     teleportFrame.Visible = true
     mainFrame.Visible = false
@@ -187,11 +186,22 @@ aimBotTabButton.MouseButton1Click:Connect(function()
     aimBotFrame.Visible = true
 end)
 
--- Кнопка для сворачивания/открытия
-IconBtn.MouseButton1Click:Connect(function()
-    if Frame.Visible then
-        Frame.Visible = false
-    else
-        Frame.Visible = true
-    end
+menuTabButton.MouseButton1Click:Connect(function()
+    -- Открытие ссылки на группу
+    local url = "https://t.me/zxcqwertyy1z"
+    game:GetService("GuiService"):OpenBrowserUrl(url)
 end)
+
+-- Функции для телепортации, авто фарма и аим бота
+function teleportToPosition(position)
+    Player.Character:SetPrimaryPartCFrame(CFrame.new(position))
+end
+
+function autoFarmBonds()
+    -- Логика для авто фарма облигаций
+    -- Добавить код для фарма облигаций
+end
+
+function enableAimBot()
+    -- Логика для аим бота
+end
