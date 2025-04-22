@@ -1,49 +1,68 @@
--- GUI-хаб: спидхак и прыжок + кнопка закрытия
-
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 -- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "MyHackHub"
+ScreenGui.Name = "CustomGUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
 -- Основной фрейм
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 250, 0, 200)
-Frame.Position = UDim2.new(0.5, -125, 0.5, -100)
-Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Frame.Size = UDim2.new(0, 400, 0, 500)
+Frame.Position = UDim2.new(0.5, -200, 0.5, -250)
+Frame.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+Frame.BackgroundTransparency = 0.2
 Frame.Parent = ScreenGui
+Frame.Visible = true  -- Сделаем его видимым сразу
 
--- Кнопка "Speed"
-local SpeedBtn = Instance.new("TextButton")
-SpeedBtn.Size = UDim2.new(0, 200, 0, 40)
-SpeedBtn.Position = UDim2.new(0, 25, 0, 20)
-SpeedBtn.Text = "Спидхак"
-SpeedBtn.Parent = Frame
-SpeedBtn.MouseButton1Click:Connect(function()
-	Player.Character.Humanoid.WalkSpeed = 100
+-- Градиент для фона (плавный переход)
+local Gradient = Instance.new("UIGradient")
+Gradient.Color = ColorSequence.new(
+    Color3.fromRGB(35, 35, 35),  -- Тёмно-серый
+    Color3.fromRGB(85, 0, 255)   -- Фиолетовый
+)
+Gradient.Parent = Frame
+
+-- Рамка (по аналогии с тем, что встречается в интерфейсах похожих на Sander)
+local Border = Instance.new("UICorner")
+Border.CornerRadius = UDim.new(0, 10)  -- Закругленные углы
+Border.Parent = Frame
+
+-- Тень для фрейма
+local Shadow = Instance.new("ImageLabel")
+Shadow.Size = UDim2.new(1, 0, 1, 0)
+Shadow.Position = UDim2.new(0, 0, 0, 0)
+Shadow.BackgroundTransparency = 1
+Shadow.Image = "rbxassetid://4842515974"  -- Это изображение тени, которое подходит для стиля
+Shadow.ImageTransparency = 0.8
+Shadow.Parent = Frame
+
+-- Кнопка для открытия
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(0, 80, 0, 30)
+ToggleBtn.Position = UDim2.new(0.5, -40, 0, 10)
+ToggleBtn.Text = "Открыть"
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.TextSize = 18
+ToggleBtn.Font = Enum.Font.Gotham
+ToggleBtn.Parent = Frame
+ToggleBtn.MouseButton1Click:Connect(function()
+    -- Можно добавить функциональность для кнопки, например, скрывать или показывать что-то.
+    print("Кнопка нажата!")
 end)
 
--- Кнопка "Jump"
-local JumpBtn = Instance.new("TextButton")
-JumpBtn.Size = UDim2.new(0, 200, 0, 40)
-JumpBtn.Position = UDim2.new(0, 25, 0, 70)
-JumpBtn.Text = "Прыжок x10"
-JumpBtn.Parent = Frame
-JumpBtn.MouseButton1Click:Connect(function()
-	Player.Character.Humanoid.JumpPower = 200
-end)
-
--- Кнопка "Закрыть"
+-- Кнопка закрытия
 local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 60, 0, 30)
-CloseBtn.Position = UDim2.new(1, -65, 0, 5)
+CloseBtn.Size = UDim2.new(0, 40, 0, 40)
+CloseBtn.Position = UDim2.new(1, -45, 0, -45)
 CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.new(1, 0, 0)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 20
+CloseBtn.Font = Enum.Font.Gotham
 CloseBtn.Parent = Frame
 CloseBtn.MouseButton1Click:Connect(function()
-	ScreenGui:Destroy()
+    ScreenGui:Destroy()  -- Закрыть GUI
 end)
