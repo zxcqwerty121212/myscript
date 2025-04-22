@@ -118,3 +118,18 @@ IconBtn.MouseButton1Click:Connect(function()
         Frame.Visible = true
     end
 end)
+-- Кнопка для телепорта в Мексику (или конец карты)
+local MexicoBtn = Instance.new("TextButton")
+MexicoBtn.Size = UDim2.new(0, 250, 0, 40)
+MexicoBtn.Position = UDim2.new(0, 25, 0, 220)
+MexicoBtn.Text = "Телепорт в Мексику"
+MexicoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+MexicoBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+MexicoBtn.Parent = Frame
+MexicoBtn.MouseButton1Click:Connect(function()
+    local char = Player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = CFrame.new(9999, 100, 9999) -- координаты "Мексики"
+    end
+end)
+
