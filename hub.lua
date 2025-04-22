@@ -1,39 +1,31 @@
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
--- Удаляем старый GUI (если он существует)
+-- Удаляем старый GUI, если он существует
 for _, obj in pairs(PlayerGui:GetChildren()) do
     if obj.Name == "CustomHub" then
         obj:Destroy()
     end
 end
 
--- ScreenGui для нового интерфейса
+-- Создание нового ScreenGui для интерфейса
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "CustomHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
--- Основной фрейм с новым стилем
+-- Основной фрейм с темным стилем
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 300, 0, 450)
-Frame.Position = UDim2.new(0, 10, 0.5, -200)
-Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Frame.Size = UDim2.new(0, 300, 0, 500)
+Frame.Position = UDim2.new(0, 0, 0.5, -250) -- Слева от экрана
+Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 Frame.Parent = ScreenGui
 Frame.Visible = false  -- По умолчанию скрыт
 
--- Градиент для фона (темный с плавным переходом)
-local Gradient = Instance.new("UIGradient")
-Gradient.Color = ColorSequence.new(
-    Color3.fromRGB(50, 50, 50),
-    Color3.fromRGB(100, 100, 100)
-)
-Gradient.Parent = Frame
-
--- Иконка для сворачивания/открытия
+-- Иконка для сворачивания/открытия интерфейса
 local IconBtn = Instance.new("ImageButton")
 IconBtn.Size = UDim2.new(0, 50, 0, 50)
-IconBtn.Position = UDim2.new(0, 125, 0, -50)
+IconBtn.Position = UDim2.new(0, 5, 0.5, -25) -- В левом верхнем углу
 IconBtn.Image = "rbxassetid://6031071056"  -- Белая иконка
 IconBtn.BackgroundTransparency = 1
 IconBtn.Parent = ScreenGui
@@ -61,7 +53,38 @@ game:GetService("UserInputService").InputChanged:Connect(function(input)
     end
 end)
 
--- Кнопка для сворачивания/открытия
+-- Кнопка для телепортации в Мексику
+local MexicoBtn = Instance.new("TextButton")
+MexicoBtn.Size = UDim2.new(0, 250, 0, 40)
+MexicoBtn.Position = UDim2.new(0, 25, 0, 70)
+MexicoBtn.Text = "Телепорт в Мексику"
+MexicoBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+MexicoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MexicoBtn.Parent = Frame
+MexicoBtn.MouseButton1Click:Connect(function()
+    -- Используем координаты для телепортации в Мексику
+    -- Вставь свои точные координаты Мексики, если они у тебя есть
+    local mexicoPosition = Vector3.new(1000, 50, 1000)  -- Примерные координаты
+    Player.Character:SetPrimaryPartCFrame(CFrame.new(mexicoPosition))
+    print("Телепортируем в Мексику!")
+end)
+
+-- Кнопка для телепортации на начало
+local StartBtn = Instance.new("TextButton")
+StartBtn.Size = UDim2.new(0, 250, 0, 40)
+StartBtn.Position = UDim2.new(0, 25, 0, 120)
+StartBtn.Text = "Телепорт в начало"
+StartBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+StartBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+StartBtn.Parent = Frame
+StartBtn.MouseButton1Click:Connect(function()
+    -- Перемещаем игрока на стартовые координаты
+    local startPosition = Vector3.new(0, 50, 0)  -- Примерные координаты
+    Player.Character:SetPrimaryPartCFrame(CFrame.new(startPosition))
+    print("Телепортируем на начало!")
+end)
+
+-- Кнопка для сворачивания/открытия интерфейса
 IconBtn.MouseButton1Click:Connect(function()
     if Frame.Visible then
         Frame.Visible = false
@@ -70,67 +93,24 @@ IconBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Вкладки (меню)
-local TabFrame = Instance.new("Frame")
-TabFrame.Size = UDim2.new(0, 300, 0, 50)
-TabFrame.Position = UDim2.new(0, 0, 0, 0)
-TabFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-TabFrame.Parent = Frame
-
-local Tabs = {"Start", "Chat", "Teleport"}
-local Buttons = {}
-
-for i, tabName in ipairs(Tabs) do
-    local Button = Instance.new("TextButton")
-    Button.Size = UDim2.new(0, 100, 0, 50)
-    Button.Position = UDim2.new(0, (i - 1) * 100, 0, 0)
-    Button.Text = tabName
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Button.Parent = TabFrame
-    Buttons[tabName] = Button
-end
-
--- Кнопка для телепорта в Мексику
-local MexicoBtn = Instance.new("TextButton")
-MexicoBtn.Size = UDim2.new(0, 250, 0, 40)
-MexicoBtn.Position = UDim2.new(0, 25, 0, 70)
-MexicoBtn.Text = "Телепорт в Мексику"
-MexicoBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-MexicoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-MexicoBtn.Parent = Frame
-MexicoBtn.Visible = false
-MexicoBtn.MouseButton1Click:Connect(function()
-    -- Здесь код для телепорта в Мексику (просто пример)
-    print("Телепортируем в Мексику!")
+-- Кнопка для закрытия интерфейса
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 60, 0, 30)
+CloseBtn.Position = UDim2.new(1, -65, 0, 5)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+CloseBtn.Parent = Frame
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
 end)
 
--- Кнопка для телепорта в начало
-local StartBtn = Instance.new("TextButton")
-StartBtn.Size = UDim2.new(0, 250, 0, 40)
-StartBtn.Position = UDim2.new(0, 25, 0, 120)
-StartBtn.Text = "Телепорт в Начало"
-StartBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-StartBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-StartBtn.Parent = Frame
-StartBtn.Visible = false
-StartBtn.MouseButton1Click:Connect(function()
-    -- Здесь код для телепорта в начало
-    print("Телепортируем в начало!")
+-- Открытие интерфейса по умолчанию
+IconBtn.MouseButton1Click:Connect(function()
+    if Frame.Visible then
+        Frame.Visible = false
+    else
+        Frame.Visible = true
+    end
 end)
 
--- Переключение вкладок
-Buttons["Start"].MouseButton1Click:Connect(function()
-    MexicoBtn.Visible = false
-    StartBtn.Visible = false
-end)
-
-Buttons["Chat"].MouseButton1Click:Connect(function()
-    MexicoBtn.Visible = false
-    StartBtn.Visible = false
-end)
-
-Buttons["Teleport"].MouseButton1Click:Connect(function()
-    MexicoBtn.Visible = true
-    StartBtn.Visible = true
-end)
